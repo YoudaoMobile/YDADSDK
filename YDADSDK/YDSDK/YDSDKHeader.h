@@ -1,6 +1,6 @@
 //
 //  YDSDKHeader.h
-//  YD_SDK_VERSION    2.13.0
+//  YD_SDK_VERSION    2.14.0
 //
 //  Created by lizai on 16/1/28.
 //  Copyright © 2016年 Netease Youdao. All rights reserved.
@@ -164,6 +164,8 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 /// @param isPlayDone 是否播放完成，若用户点击关闭按钮则返回NO，正常播放完成返回YES
 /// @param nativeAd Ad
 - (void)rewardVideoDidFinish:(BOOL)isPlayDone forNativeAd:(YDNativeAd *)nativeAd;
+- (void)nativeAdWillLogImpression:(YDNativeAd *)nativeAd;
+- (void)nativeAdDidClick:(YDNativeAd *)nativeAd;
 @required
 - (UIViewController *)viewControllerForPresentingModalView;
 @end
@@ -244,50 +246,6 @@ typedef void(^YDNativeAdPreloadRequestHandler)(YDNativeAdPreloadRequest *request
 
 - (void)preloadWithCompletionHandler:(YDNativeAdPreloadRequestHandler)handler;
 - (void)preloadWithAdSequence:(NSInteger)adSequence withCompletionHandler:(YDNativeAdPreloadRequestHandler)handler;
-@end
-
-// 开屏广告缓存request
-@class YDSplashAdPreloadRequest, YDNativeAdRequestTargeting;
-typedef void(^YDSplashAdPreloadRequestHandler)(YDSplashAdPreloadRequest *request, NSDictionary *response, NSError *error);
-@interface YDSplashAdPreloadRequest : NSObject
-@property (nonatomic, strong) YDNativeAdRequestTargeting *targeting;
-+ (YDSplashAdPreloadRequest *)requestWithAdUnitIdentifier:(NSString *)identifier;
-- (void)preloadWithCompletionHandler:(YDSplashAdPreloadRequestHandler)handler;
-- (void)preloadWithAdSequence:(NSInteger)adSequence withCompletionHandler:(YDSplashAdPreloadRequestHandler)handler;
-@end
-
-//开屏广告相关
-@class YDSplashAd, YDSplashAdRequest, YDNativeAdRequestTargeting;
-
-typedef void(^YDSplashAdRequestHandler)(YDSplashAdRequest *request, YDSplashAd *response, NSError *error);
-
-@interface YDSplashAdRequest : NSObject
-@property (nonatomic, strong) YDNativeAdRequestTargeting *targeting;
-/// 开屏广告请求超时时间，默认0.3s
-@property (nonatomic, assign) NSTimeInterval requestTimeout;
-+ (YDSplashAdRequest *)requestWithAdUnitIdentifier:(NSString *)identifier;
-- (void)startWithCompletionHandler:(YDSplashAdRequestHandler)handler;
-@end
-
-@interface YDSplashAdRenderer : NSObject <YDNativeAdRenderer>
-@property (nonatomic, assign) Class renderingViewClass;
-@end
-
-@class YDSplashAd;
-@protocol YDSplashAdDelegate <NSObject>
-- (void)splashAdDidLogImpression:(YDSplashAd *)splashAd;
-- (void)splashAdDidClick:(YDSplashAd *)splashAd;
-- (void)splashAdDidDismiss:(YDSplashAd *)splashAd;
-@end
-
-@interface YDSplashAd : NSObject
-/// 是否全屏
-@property (nonatomic, assign) BOOL fullScreen;
-/// 开屏展示时间，单位为秒
-@property (nonatomic, assign) NSInteger showInterval;
-@property (nonatomic, weak)  id<YDSplashAdDelegate> delegate;
-@property (nonatomic, strong) YDSplashAdRenderer *render;
-- (UIView *)renderAdView;
 @end
 
 @interface YDNativeAdBatchProvider : NSObject
