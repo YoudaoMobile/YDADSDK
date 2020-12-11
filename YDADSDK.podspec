@@ -90,7 +90,8 @@ Pod::Spec.new do |spec|
   #  Not including the public_header_files will make all headers public.
   #
 
-  spec.ios.deployment_target = '8.0'
+  spec.ios.deployment_target = '9.0'
+  spec.pod_target_xcconfig = { 'VALID_ARCHS' => 'x86_64 armv7 arm64' }
 
   spec.source_files = 'YDADSDK/YDSDK/*.h'
   spec.public_header_files = 'YDADSDK/YDSDK/YDSDKHeader.h'

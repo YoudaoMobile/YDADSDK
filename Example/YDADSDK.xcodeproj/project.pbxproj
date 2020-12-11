@@ -66,7 +66,7 @@
 		962590A115AC35CB38A0F5E8 /* Pods-YDADSDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YDADSDK_Tests.debug.xcconfig"; path = "Target Support Files/Pods-YDADSDK_Tests/Pods-YDADSDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		A33EF02A2BDA5FB9DE7116B9 /* Pods-YDADSDK_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YDADSDK_Example.release.xcconfig"; path = "Target Support Files/Pods-YDADSDK_Example/Pods-YDADSDK_Example.release.xcconfig"; sourceTree = "<group>"; };
 		DDC41120276CB40CC67B3542 /* Pods-YDADSDK_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YDADSDK_Example.debug.xcconfig"; path = "Target Support Files/Pods-YDADSDK_Example/Pods-YDADSDK_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		FBDF840697D2A1AEDF28D9E3 /* YDADSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = YDADSDK.podspec; path = ../YDADSDK.podspec; sourceTree = "<group>"; };
+		FBDF840697D2A1AEDF28D9E3 /* YDADSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = YDADSDK.podspec; path = ../YDADSDK.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -438,6 +438,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -453,7 +454,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -478,6 +479,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
