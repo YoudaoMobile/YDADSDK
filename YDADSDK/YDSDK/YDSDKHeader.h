@@ -1,6 +1,6 @@
 //
 //  YDSDKHeader.h
-//  YD_SDK_VERSION    2.15.4
+//  YD_SDK_VERSION    2.16.2
 //
 //  Created by lizai on 16/1/28.
 //  Copyright © 2016年 Netease Youdao. All rights reserved.
@@ -91,6 +91,15 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 @property (nonatomic, assign) CGFloat adWidth;
 /// 广告view高
 @property (nonatomic, assign) CGFloat adHeight;
+@end
+
+/// 微信小程序跳转字段信息
+@interface YDLaunchWxMiniProgramInfo : NSObject
+/// 微信小程序跳转字段所有字段字典
+@property (nonatomic, strong) NSDictionary *wxMiniProgramDict;
+@property (nonatomic, copy) NSString *appid;
+@property (nonatomic, copy) NSString *originid;
+@property (nonatomic, copy) NSString *path;
 @end
 
 @protocol YDNativeAdAdapter;
@@ -324,6 +333,12 @@ typedef CGSize (^YDNativeViewSizeHandler)(CGFloat maximumWidth);
 @property (nonatomic, assign) BOOL uploadLastCreativeIds;
 /// 是否支持个性化推荐广告,默认为YES
 @property (nonatomic, assign) BOOL supportTargetedAd;
+/// 微信小程序跳转相关字段
+@property (nonatomic, strong) YDLaunchWxMiniProgramInfo *wxMiniProgramInfo;
+/// CAID 用于广告主归因
+@property (nonatomic, copy) NSString *caid;
+/// AAID 用于广告主归因
+@property (nonatomic, copy) NSString *aaid;
 @end
 
 @class YDBrowserViewController;
