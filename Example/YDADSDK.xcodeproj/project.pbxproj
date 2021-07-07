@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2A1EEB7AC63DF491B1368B94 /* Pods_YDADSDK_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27C352549269BD2B6727D02C /* Pods_YDADSDK_Example.framework */; };
 		3C58094738676E19A9E317B7 /* Pods_YDADSDK_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 826EADF0722D258F95430D3C /* Pods_YDADSDK_Tests.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -77,7 +76,6 @@
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
-				2A1EEB7AC63DF491B1368B94 /* Pods_YDADSDK_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,7 +205,7 @@
 				6003F586195388D20070C39A /* Sources */,
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
-				54A5F92664070FCE7B89172C /* [CP] Embed Pods Frameworks */,
+				3C82D0AC6E26091CD836E547 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -298,22 +296,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		54A5F92664070FCE7B89172C /* [CP] Embed Pods Frameworks */ = {
+		3C82D0AC6E26091CD836E547 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-YDADSDK_Example/Pods-YDADSDK_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/YDADSDK/YDADSDK.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-YDADSDK_Example/Pods-YDADSDK_Example-resources.sh",
+				"${PODS_ROOT}/../../YDADSDK/YDSDK/YDResource.bundle",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YDADSDK.framework",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YDResource.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-YDADSDK_Example/Pods-YDADSDK_Example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-YDADSDK_Example/Pods-YDADSDK_Example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		ADEA5CB9EA754E26A048D9F3 /* [CP] Check Pods Manifest.lock */ = {

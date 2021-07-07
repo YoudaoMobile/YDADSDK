@@ -1,6 +1,6 @@
 //
 //  YDSDKHeader.h
-//  YD_SDK_VERSION    2.16.2
+//  YD_SDK_VERSION    2.16.4
 //
 //  Created by lizai on 16/1/28.
 //  Copyright © 2016年 Netease Youdao. All rights reserved.
@@ -146,6 +146,11 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 /// @param deeplinkUrl 打开的deeplinkUrl
 /// @param success 是否打开成功
 - (void)trackAdDeeplinkUrl:(NSURL *)deeplinkUrl success:(BOOL)success;
+///构建信息流视频落地页vc
+///用于媒体自己渲染信息流视频，但是想用SDK的落地页来打开
+/// @param isPushed 是否是push操作，push和present的dismiss方法有区别
+- (UIViewController *)buildNativeVideoVcWithIsPushed:(BOOL)isPushed;
+- (UIViewController *)buildNativeVideoVcWithIsPushed:(BOOL)isPushed isDismissAnimated:(BOOL)isDismissAnimated;
 @end
 @interface YDNativeCache : NSObject
 + (instancetype)sharedCache;
