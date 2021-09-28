@@ -1,9 +1,9 @@
 //
-//  YDSDKHeader.h
-//  YD_SDK_VERSION    2.16.4
-//
-//  Created by lizai on 16/1/28.
-//  Copyright © 2016年 Netease Youdao. All rights reserved.
+//  YDSDKFramework.h
+//  YDSDKFramework
+//  YD_SDK_VERSION    2.16.8
+//  Created by lilu on 2021/1/18.
+//  Copyright © 2021 Netease Youdao. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -35,6 +35,8 @@ extern NSString *const yd_kCtaTrackerURLKey;
 extern NSString *const yd_kAdYDEXTTextKey;
 extern NSString *const yd_kLogEventRequestPropertiesKey;
 extern NSString *const yd_kBrandAdTypeHeaderKey;
+extern NSString *const yd_kDeeplinkURLKey;
+extern NSString *const yd_kDeeplinkTrackerURLsKey;
 
 UIInterfaceOrientation YDInterfaceOrientation(void);
 UIWindow *YDKeyWindow(void);
@@ -110,9 +112,11 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 @class YDBrowserViewController;
 @class YDNativeAdClickInfo;
 @interface YDNativeAd : NSObject
+@property (nonatomic) BOOL hasAttachedToView;
 @property (nonatomic, weak) id<YDNativeAdDelegate> delegate;
 @property (nonatomic, strong) id<YDBrowserViewControllerBuilderDelegate> browserViewControllerBuilderDelegate;
 @property (nonatomic, readonly) NSDictionary *properties;
+@property (nonatomic, readonly) id<YDNativeAdAdapter> adAdapter;
 - (instancetype)initWithAdAdapter:(id<YDNativeAdAdapter>)adAdapter;
 - (UIView *)retrieveAdViewWithError:(NSError **)error browserViewControllerBuilderDelegate:(id<YDBrowserViewControllerBuilderDelegate>)browserViewControllerBuilderDelegate;
 - (void)playEndCardVideo;
@@ -121,6 +125,17 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 @property (nonatomic, assign) BOOL isBrand;
 @property (nonatomic, assign) BOOL isEndCardVideo;
 @property (nonatomic, assign) NSTimeInterval timeoutInterval;
+/**
+ 品牌广告点击类型;
+ 取值为"0"为"跳转落地页";
+ 取值为"1"为"跳转视频内页";
+ 取值为"2"为"跳转deeplink";
+ 取值为"3"为"跳转小程序";
+ */
+@property (nonatomic, copy) NSString *brandClkType;
+
+/// 微信小程序跳转相关字段
+@property (nonatomic, strong) YDLaunchWxMiniProgramInfo *wxMiniProgramInfo;
 
 /// 获取落地页URL
 - (NSURL *)actualActionURL;
@@ -147,11 +162,18 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 /// @param success 是否打开成功
 - (void)trackAdDeeplinkUrl:(NSURL *)deeplinkUrl success:(BOOL)success;
 ///构建信息流视频落地页vc
-///用于媒体自己渲染信息流视频，但是想用SDK的落地页来打开
-/// @param isPushed 是否是push操作，push和present的dismiss方法有区别
+/// @param isPushed 是否是push操作
 - (UIViewController *)buildNativeVideoVcWithIsPushed:(BOOL)isPushed;
-- (UIViewController *)buildNativeVideoVcWithIsPushed:(BOOL)isPushed isDismissAnimated:(BOOL)isDismissAnimated;
 @end
+
+@interface YODAOPlayerViewController : UIViewController
+@property (nonatomic) BOOL muted;
+@end
+
+@interface YDDefaultNativeVideoController  : UIViewController
+@property (nonatomic) YODAOPlayerViewController *playerController;
+@end
+
 @interface YDNativeCache : NSObject
 + (instancetype)sharedCache;
 - (BOOL)cachedDataExistsForKey:(NSString *)key;
@@ -262,6 +284,55 @@ typedef void(^YDNativeAdPreloadRequestHandler)(YDNativeAdPreloadRequest *request
 - (void)preloadWithAdSequence:(NSInteger)adSequence withCompletionHandler:(YDNativeAdPreloadRequestHandler)handler;
 @end
 
+// 开屏广告缓存request
+@class YDSplashAdPreloadRequest, YDNativeAdRequestTargeting;
+typedef void(^YDSplashAdPreloadRequestHandler)(YDSplashAdPreloadRequest *request, NSDictionary *response, NSError *error);
+@interface YDSplashAdPreloadRequest : NSObject
+@property (nonatomic, strong) YDNativeAdRequestTargeting *targeting;
++ (YDSplashAdPreloadRequest *)requestWithAdUnitIdentifier:(NSString *)identifier;
+- (void)preloadWithCompletionHandler:(YDSplashAdPreloadRequestHandler)handler;
+- (void)preloadWithAdSequence:(NSInteger)adSequence withCompletionHandler:(YDSplashAdPreloadRequestHandler)handler;
+@end
+
+//开屏广告相关
+@class YDSplashAd, YDSplashAdRequest, YDNativeAdRequestTargeting;
+
+typedef void(^YDSplashAdRequestHandler)(YDSplashAdRequest *request, YDSplashAd *response, NSError *error);
+
+@interface YDSplashAdRequest : NSObject
+@property (nonatomic, strong) YDNativeAdRequestTargeting *targeting;
+/// 开屏广告请求超时时间，默认0.3s
+@property (nonatomic, assign) NSTimeInterval requestTimeout;
++ (YDSplashAdRequest *)requestWithAdUnitIdentifier:(NSString *)identifier;
+- (void)startWithCompletionHandler:(YDSplashAdRequestHandler)handler;
+@end
+
+@interface YDSplashAdRenderer : NSObject <YDNativeAdRenderer>
+@property (nonatomic, assign) Class renderingViewClass;
+@end
+
+@class YDSplashAd;
+@protocol YDSplashAdDelegate <NSObject>
+- (void)splashAdDidLogImpression:(YDSplashAd *)splashAd;
+- (void)splashAdDidClick:(YDSplashAd *)splashAd;
+- (void)splashAdDidDismiss:(YDSplashAd *)splashAd;
+@end
+
+@interface YDSplashAd : NSObject
+@property (nonatomic, strong) YDNativeAd *nativeAd;
+/// 是否全屏
+@property (nonatomic, assign) BOOL fullScreen;
+/// 是否可以全屏点击
+@property (nonatomic, assign) BOOL fullScreenClick;
+/// 所有字段
+@property (nonatomic, strong) NSDictionary *jsonDict;
+/// 开屏展示时间，单位为秒
+@property (nonatomic, assign) NSInteger showInterval;
+@property (nonatomic, weak)  id<YDSplashAdDelegate> delegate;
+@property (nonatomic, strong) YDSplashAdRenderer *render;
+- (UIView *)renderAdView;
+@end
+
 @interface YDNativeAdBatchProvider : NSObject
 + (YDNativeAdBatchProvider *)requestWithAdUnitIdentifier:(NSString *)identifier rendererConfigurations:(NSArray *)rendererConfigurations;
 - (void)getAdsWithTargeting:(YDNativeAdRequestTargeting *)targeting withAmount:(NSInteger)amount afterComplete:(YDNativeAdBatchProviderHandler)customHandler;
@@ -338,12 +409,8 @@ typedef CGSize (^YDNativeViewSizeHandler)(CGFloat maximumWidth);
 @property (nonatomic, assign) BOOL uploadLastCreativeIds;
 /// 是否支持个性化推荐广告,默认为YES
 @property (nonatomic, assign) BOOL supportTargetedAd;
-/// 微信小程序跳转相关字段
-@property (nonatomic, strong) YDLaunchWxMiniProgramInfo *wxMiniProgramInfo;
-/// CAID 用于广告主归因
-@property (nonatomic, copy) NSString *caid;
-/// AAID 用于广告主归因
-@property (nonatomic, copy) NSString *aaid;
+/// 开屏广告logo高度
+@property (nonatomic, assign) CGFloat splashLogoHeight;
 @end
 
 @class YDBrowserViewController;
