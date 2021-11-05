@@ -1,7 +1,5 @@
 //
-//  YDSDKFramework.h
-//  YDSDKFramework
-//  YD_SDK_VERSION    2.16.8
+//  YD_SDK_VERSION    2.16.9
 //  Created by lilu on 2021/1/18.
 //  Copyright © 2021 Netease Youdao. All rights reserved.
 //
@@ -65,6 +63,12 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 @property (nonatomic, assign) YDHostDomain  hostDomain;
 /// 广告请求超时时间，以秒为单位，默认10.0
 @property (nonatomic, assign) NSTimeInterval  hostTimeoutInterval;
+/// 允许获取时区参数,默认为YES
+@property (nonatomic, assign) BOOL  isTimeZoneParamsEnabled;
+/// 允许获取反作弊参数,默认为YES
+@property (nonatomic, assign) BOOL  isAntiCheatingParamsEnabled;
+/// 允许获取设备信息,默认为YES
+@property (nonatomic, assign) BOOL  isDeviceParamsEnabled;
 /// 获取单例
 + (YDAdManager *)sharedInstance;
 /// 获取广告前的准备工作，必须在request广告前先调用这个接口
@@ -411,6 +415,10 @@ typedef CGSize (^YDNativeViewSizeHandler)(CGFloat maximumWidth);
 @property (nonatomic, assign) BOOL supportTargetedAd;
 /// 开屏广告logo高度
 @property (nonatomic, assign) CGFloat splashLogoHeight;
+/// CAID 用于广告主归因
+@property (nonatomic, copy) NSString *caid;
+/// AAID 用于广告主归因
+@property (nonatomic, copy) NSString *aaid;
 @end
 
 @class YDBrowserViewController;
@@ -599,6 +607,8 @@ typedef NS_ENUM(int, collectType){
 + (BOOL)isTesting;
 + (void)turnOn;
 + (void)turnOff;
++ (void)useEncryption;
++ (void)disableEncryption;
 @end
 
 typedef enum
