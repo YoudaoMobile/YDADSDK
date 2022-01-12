@@ -1,5 +1,5 @@
 //
-//  YD_SDK_VERSION    2.16.9
+//  YD_SDK_VERSION    2.16.10
 //  Created by lilu on 2021/1/18.
 //  Copyright © 2021 Netease Youdao. All rights reserved.
 //
@@ -419,6 +419,8 @@ typedef CGSize (^YDNativeViewSizeHandler)(CGFloat maximumWidth);
 @property (nonatomic, copy) NSString *caid;
 /// AAID 用于广告主归因
 @property (nonatomic, copy) NSString *aaid;
+/// 额外参数
+@property (nonatomic, strong)  NSMutableDictionary *extraParams;
 @end
 
 @class YDBrowserViewController;
