@@ -1,5 +1,5 @@
 //
-//  YD_SDK_VERSION    2.16.12
+//  YD_SDK_VERSION    2.16.14
 //  Created by lilu on 2021/1/18.
 //  Copyright © 2021 Netease Youdao. All rights reserved.
 //
@@ -63,6 +63,8 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 @property (nonatomic, assign) YDHostDomain  hostDomain;
 /// 广告请求超时时间，以秒为单位，默认10.0
 @property (nonatomic, assign) NSTimeInterval  hostTimeoutInterval;
+/// 广告请求是否允许下载资源，全局配置，默认YES
+@property (nonatomic, assign) BOOL allowDownloadResource;
 /// 允许获取时区参数,默认为YES
 @property (nonatomic, assign) BOOL  isTimeZoneParamsEnabled;
 /// 允许获取反作弊参数,默认为YES
@@ -270,6 +272,10 @@ typedef void(^YDNativeAdRequestHandler)(YDNativeAdRequest *request,
                                         NSError *error);
 @interface YDNativeAdRequest : NSObject
 @property (nonatomic, strong) YDNativeAdRequestTargeting *targeting;
+/// 广告网络请求超时时间，默认为[YDAdManager sharedInstance].hostTimeoutInterval
+@property (nonatomic, assign) NSTimeInterval requestTimeout;
+/// 允许请求广告时下载资源,默认为[YDAdManager sharedInstance].allowDownloadResource
+@property (nonatomic, assign) BOOL allowDownloadResource;
 + (YDNativeAdRequest *)requestWithAdUnitIdentifier:(NSString *)identifier rendererConfigurations:(NSArray *)rendererConfigurations;
 + (YDNativeAdRequest *)requestWithAdUnitIdentifier:(NSString *)identifier rendererConfigurations:(NSArray *)rendererConfigurations adNet:(NSString *)adNet;
 - (void)startWithCompletionHandler:(YDNativeAdRequestHandler)handler;
@@ -315,7 +321,7 @@ typedef void(^YDSplashAdRequestHandler)(YDSplashAdRequest *request, YDSplashAd *
 @property (nonatomic, assign) Class renderingViewClass;
 @end
 
-@class YDSplashAd;
+@class YDSplashAd, YDSplashAdRenderer;
 @protocol YDSplashAdDelegate <NSObject>
 - (void)splashAdDidLogImpression:(YDSplashAd *)splashAd;
 - (void)splashAdDidClick:(YDSplashAd *)splashAd;
@@ -324,20 +330,90 @@ typedef void(^YDSplashAdRequestHandler)(YDSplashAdRequest *request, YDSplashAd *
 
 @interface YDSplashAd : NSObject
 @property (nonatomic, strong) YDNativeAd *nativeAd;
+/// 广告位id
+@property (nonatomic, copy) NSString *placementId;
+/// 广告创意id
+@property (nonatomic, copy) NSString *creativeId;
 /// 是否全屏
 @property (nonatomic, assign) BOOL fullScreen;
 /// 是否可以全屏点击
 @property (nonatomic, assign) BOOL fullScreenClick;
-/// 所有字段
-@property (nonatomic, strong) NSDictionary *jsonDict;
+/// 广告Id
+@property (nonatomic, copy) NSString *adId;
+/// 是否为效果广告占位符，效果广告占位符只包含weight和isEffectCarouselPos两个字段
+@property (nonatomic, assign) BOOL isEffectCarouselPos;
+/// 开屏形态，“0”：开屏回收，“1”：原生广告，”“：普通形态（即原有eadd接口desc字段）
+@property (nonatomic, copy) NSString *uiStyle;
+/// 是否是首刷广告
+@property (nonatomic, assign) BOOL isFirstShot;
+/// 是否支持摇一摇，1：是，2：否
+@property (nonatomic, copy) NSString *shakable;
 /// 开屏展示时间，单位为秒
 @property (nonatomic, assign) NSInteger showInterval;
+/// 轮播权重
+@property (nonatomic, assign) NSInteger weight;
+/// 开始结束时间单位毫秒
+@property (nonatomic, assign) NSTimeInterval startTime;
+@property (nonatomic, assign) NSTimeInterval endTime;
+/// 最后修改时间
+@property (nonatomic, assign) NSTimeInterval modTime;
+/// 所有字段
+@property (nonatomic, strong) NSDictionary *jsonDict;
+
 @property (nonatomic, weak)  id<YDSplashAdDelegate> delegate;
+
 @property (nonatomic, strong) YDSplashAdRenderer *render;
 - (UIView *)renderAdView;
+
+- (instancetype)initWithDict:(NSDictionary *)jsonDict;
+/// 是否是今天的排期广告
+- (BOOL)isTodayAdValid;
+/// 是否已缓存全部素材
+- (BOOL)isCached;
+/// 是否是效果广告位占位
+- (BOOL)isEffectCarousel;
+/// 广告点击上报接口
+- (void)trackSplashAdClick;
+/// 广告展示上报接口
+- (void)trackSplashAdImpression;
+@end
+
+@class YDSplashAd, YDSplashAdLoader, YDNativeAdRequestTargeting;
+
+typedef void(^YDSplashAdLoaderHandler)(YDSplashAdLoader *request, YDSplashAd *response, NSError *error);
+
+@interface YDSplashAdLoader : NSObject
+@property (nonatomic, strong) YDNativeAdRequestTargeting *targeting;
+@property (nonatomic, copy) NSString *adUnitIdentifier;
+/// 开屏广告请求超时时间，默认0.3s
+@property (nonatomic, assign) NSTimeInterval requestTimeout;
+
++ (YDSplashAdLoader *)loaderWithAdUnitIdentifier:(NSString *)identifier;
+- (void)loadWithCompletionHandler:(YDSplashAdLoaderHandler)handler;
+@end
+
+@class YDSplashAdPreloader, YDNativeAdRequestTargeting;
+
+typedef void(^YDSplashAdPreloaderHandler)(YDSplashAdPreloader *request, NSDictionary *response, NSError *error);
+
+@interface YDSplashAdPreloader : NSObject
+@property (nonatomic, strong) YDNativeAdRequestTargeting *targeting;
+/// 广告网络请求超时时间，默认为[YDAdManager sharedInstance].hostTimeoutInterval
+@property (nonatomic, assign) NSTimeInterval requestTimeout;
+/// 允许4G网络缓存图片资源,默认为YES
+@property (nonatomic, assign) BOOL allowDownloadImageResourceVia4G;
+/// 允许4G网络缓存视频资源,默认为YES
+@property (nonatomic, assign) BOOL allowDownloadVideoResourceVia4G;
+
++ (YDSplashAdPreloader *)loaderWithAdUnitIdentifier:(NSString *)identifier;
+- (void)preloadWithCompletionHandler:(YDSplashAdPreloaderHandler)handler;
 @end
 
 @interface YDNativeAdBatchProvider : NSObject
+/// 广告网络请求超时时间，默认为[YDAdManager sharedInstance].hostTimeoutInterval
+@property (nonatomic, assign) NSTimeInterval requestTimeout;
+/// 允许请求广告时下载资源,默认为[YDAdManager sharedInstance].allowDownloadResource
+@property (nonatomic, assign) BOOL allowDownloadResource;
 + (YDNativeAdBatchProvider *)requestWithAdUnitIdentifier:(NSString *)identifier rendererConfigurations:(NSArray *)rendererConfigurations;
 - (void)getAdsWithTargeting:(YDNativeAdRequestTargeting *)targeting withAmount:(NSInteger)amount afterComplete:(YDNativeAdBatchProviderHandler)customHandler;
 - (void)cleanRecievedIds;

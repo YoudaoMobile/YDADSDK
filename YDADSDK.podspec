@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "YDADSDK"
-  spec.version      = "2.16.12"
+  spec.version      = "2.16.14"
   spec.summary      = "有道智选iOS广告SDK."
 
   # This description is used to generate tags and improve search results.
