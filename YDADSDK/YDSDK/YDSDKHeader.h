@@ -1,5 +1,5 @@
 //
-//  YD_SDK_VERSION    2.16.16
+//  YD_SDK_VERSION    2.16.17
 //  Created by lilu on 2021/1/18.
 //  Copyright © 2021 Netease Youdao. All rights reserved.
 //
@@ -338,6 +338,8 @@ typedef void(^YDSplashAdRequestHandler)(YDSplashAdRequest *request, YDSplashAd *
 @property (nonatomic, assign) BOOL fullScreen;
 /// 是否可以全屏点击
 @property (nonatomic, assign) BOOL fullScreenClick;
+/// 是否是滑动交互类型广告
+@property (nonatomic, assign) BOOL slideInteract;
 /// 广告Id
 @property (nonatomic, copy) NSString *adId;
 /// 是否为效果广告占位符，效果广告占位符只包含weight和isEffectCarouselPos两个字段
