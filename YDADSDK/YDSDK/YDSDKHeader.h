@@ -1,5 +1,5 @@
 //
-//  YD_SDK_VERSION    2.16.17
+//  YD_SDK_VERSION    2.16.18
 //  Created by lilu on 2021/1/18.
 //  Copyright © 2021 Netease Youdao. All rights reserved.
 //
@@ -332,6 +332,8 @@ typedef void(^YDSplashAdRequestHandler)(YDSplashAdRequest *request, YDSplashAd *
 @property (nonatomic, strong) YDNativeAd *nativeAd;
 /// 广告位id
 @property (nonatomic, copy) NSString *placementId;
+/// 点击交互类型参数，值为"1"表示摇一摇交互，值为"2"表示滑动交互，无值或无参数下发时，默认为普通点击交互类型;
+@property (nonatomic, copy) NSString *clickType;
 /// 广告创意id
 @property (nonatomic, copy) NSString *creativeId;
 /// 是否全屏
