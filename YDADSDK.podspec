@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "YDADSDK"
-  spec.version      = "2.16.19"
+  spec.version      = "2.16.20"
   spec.summary      = "有道智选iOS广告SDK."
 
   # This description is used to generate tags and improve search results.
@@ -24,12 +24,10 @@ Pod::Spec.new do |spec|
   #   * Try to keep it short, snappy and to the point.
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
-  spec.description  = <<-DESC
-  TODO: Add long description of the pod here.
-                   DESC
+  #spec.description  = <<-DESC
+  #有道智选iOS广告SDK
 
-  spec.homepage     = "https://github.com/buptlilu/YDADSDK"
-  # spec.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
+  spec.homepage     = "https://github.com/YoudaoMobile/YDADSDK"
 
 
   # ―――  Spec License  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -52,10 +50,7 @@ Pod::Spec.new do |spec|
   #  profile URL.
   #
 
-  spec.author             = { "lilu" => "chujunhe1234@163.com" }
-  # Or just: spec.author    = "lilu"
-  # spec.authors            = { "lilu" => "chujunhe1234@163.com" }
-  # spec.social_media_url   = "https://twitter.com/lilu"
+  spec.author             = { "liweican" => "liweican@corp.netease.com" }
 
   # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -79,7 +74,7 @@ Pod::Spec.new do |spec|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  spec.source       = { :git => "https://github.com/buptlilu/YDADSDK.git", :tag => "#{spec.version}" }
+  spec.source       = { :git => "https://github.com/YoudaoMobile/YDADSDK", :tag => "#{spec.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -90,7 +85,7 @@ Pod::Spec.new do |spec|
   #  Not including the public_header_files will make all headers public.
   #
 
-  spec.ios.deployment_target = '9.0'
+  spec.ios.deployment_target = '11.0'
   spec.pod_target_xcconfig = { 'VALID_ARCHS' => 'x86_64 armv7 arm64' }
 
   spec.source_files = 'YDADSDK/YDSDK/*.h'

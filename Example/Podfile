@@ -1,6 +1,5 @@
 use_frameworks!
 
-platform :ios, '8.0'
 
 target 'YDADSDK_Example' do
   pod 'YDADSDK', :path => '../'

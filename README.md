@@ -20,9 +20,10 @@ it, simply add the following line to your Podfile:
 pod 'YDADSDK'
 ```
 
+
 ## Author
 
-buptlilu, chujunhe1234@163.com
+liweican, liweican@corp.netease.com
 
 ## License
 
