@@ -1,5 +1,5 @@
 //
-//  YD_SDK_VERSION    2.16.23
+//  YD_SDK_VERSION    2.16.24
 //  Created by lilu on 2021/1/18.
 //  Copyright © 2021 Netease Youdao. All rights reserved.
 //
@@ -77,6 +77,7 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 + (YDAdManager *)sharedInstance;
 /// 获取广告前的准备工作，必须在request广告前先调用这个接口
 - (void)prepareForLoadAd;
+
 @end
 
 @interface YDNativeAdUtils : NSObject
@@ -169,6 +170,12 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 /// @param deeplinkUrl 打开的deeplinkUrl
 /// @param success 是否打开成功
 - (void)trackAdDeeplinkUrl:(NSURL *)deeplinkUrl success:(BOOL)success;
+/**
+ 广告打开微信小程序上报接口
+ 若开发者自行渲染广告需要上报打开微信小程序事件的时候调用此接口
+ @param success 是否打开成功
+ */
+- (void)trackAdWxMiniProgramSuccess:(BOOL)success;
 ///构建信息流视频落地页vc
 /// @param isPushed 是否是push操作
 - (UIViewController *)buildNativeVideoVcWithIsPushed:(BOOL)isPushed;
