@@ -1,5 +1,5 @@
 //
-//  YD_SDK_VERSION    2.16.26
+//  YD_SDK_VERSION    2.16.27
 //  Created by lilu on 2021/1/18.
 //  Copyright © 2021 Netease Youdao. All rights reserved.
 //
@@ -73,6 +73,12 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 @property (nonatomic, assign) BOOL  isDeviceParamsEnabled;
 /// 全局 AAID 用于广告主归因
 @property (nonatomic, copy) NSString *aaid;
+/**
+ * 是否强制要求响应广告链接为https，No 非强制， YES 为强制
+ * 默认为 No
+ */
+@property (nonatomic, assign) BOOL isSecure;
+
 /**
  * 是否允许 SDK 获取应用安装信息
  * 默认为YES
