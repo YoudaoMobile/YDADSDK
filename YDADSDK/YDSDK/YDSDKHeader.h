@@ -1,5 +1,5 @@
 //
-//  YD_SDK_VERSION    2.16.28
+//  YD_SDK_VERSION    2.16.29
 //  Created by lilu on 2021/1/18.
 //  Copyright © 2021 Netease Youdao. All rights reserved.
 //
@@ -399,6 +399,11 @@ typedef void(^YDSplashAdRequestHandler)(YDSplashAdRequest *request, YDSplashAd *
 - (BOOL)isEffectCarousel;
 /// 广告点击上报接口
 - (void)trackSplashAdClick;
+
+/// 广告点击上报接口,同 trackSplashAdClick
+/// @param clickInfo 点击信息
+- (void)trackSplashAdClickWithClickInfo:(YDNativeAdClickInfo *)clickInfo;
+
 /// 广告展示上报接口
 - (void)trackSplashAdImpression;
 @end
