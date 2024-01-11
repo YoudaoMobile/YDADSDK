@@ -1,5 +1,5 @@
 //
-//  YD_SDK_VERSION    2.16.30
+//  YD_SDK_VERSION    2.16.31
 //  Created by lilu on 2021/1/18.
 //  Copyright © 2021 Netease Youdao. All rights reserved.
 //
@@ -102,16 +102,27 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 + (void)storeCallBackUserIdentifier:(NSString *)callBackIdentifier;
 @end
 
-/// 广告点击信息
+/// 广告点击信息（点击down 或者up传一个就可以，滑动都传）
 @interface YDNativeAdClickInfo : NSObject
-/// 点击广告时点击位置相对于广告view的X坐标
-@property (nonatomic, assign) CGFloat clkX;
-/// 点击广告时点击位置相对于广告view的Y坐标
-@property (nonatomic, assign) CGFloat clkY;
-/// 广告view宽
+
+/// 点击广告时点击位置相对于广告view的X坐标（按下去的位置  逻辑像素）
+@property (nonatomic, assign) CGFloat clickDownX;
+
+/// 点击广告时点击位置相对于广告view的Y坐标（按下去的位置 逻辑像素）
+@property (nonatomic, assign) CGFloat clickDownY;
+
+/// 点击广告时点击位置相对于广告view的X坐标（手指离开抬起的位置  逻辑像素）
+@property (nonatomic, assign) CGFloat clickUpX;
+
+/// 点击广告时点击位置相对于广告view的Y坐标（手指离开抬起的位置 逻辑像素）
+@property (nonatomic, assign) CGFloat clickUpY;
+
+/// 广告view宽（逻辑像素）
 @property (nonatomic, assign) CGFloat adWidth;
-/// 广告view高
+
+/// 广告view宽（逻辑像素）
 @property (nonatomic, assign) CGFloat adHeight;
+
 @end
 
 /// 微信小程序跳转字段信息
@@ -186,6 +197,10 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
  @param success 是否打开成功
  */
 - (void)trackAdWxMiniProgramSuccess:(BOOL)success;
+
+/// 对url 绑定 点击信息
+- (NSString *)getUrlWithClickInfo:(YDNativeAdClickInfo *)clickInfo urlStr:(NSString *)urlStr;
+
 ///构建信息流视频落地页vc
 /// @param isPushed 是否是push操作
 - (UIViewController *)buildNativeVideoVcWithIsPushed:(BOOL)isPushed;
@@ -380,6 +395,10 @@ typedef void(^YDSplashAdRequestHandler)(YDSplashAdRequest *request, YDSplashAd *
 /// 开始结束时间单位毫秒
 @property (nonatomic, assign) NSTimeInterval startTime;
 @property (nonatomic, assign) NSTimeInterval endTime;
+
+/// 此广告对象所属的推广组id，整型，i.e：300132
+@property (nonatomic, strong) NSNumber *groupId;
+
 /// 最后修改时间
 @property (nonatomic, assign) NSTimeInterval modTime;
 /// 所有字段
@@ -406,6 +425,9 @@ typedef void(^YDSplashAdRequestHandler)(YDSplashAdRequest *request, YDSplashAd *
 
 /// 广告展示上报接口
 - (void)trackSplashAdImpression;
+
+/// 对url 绑定点击信息
+- (NSString *)getUrlWithClickInfo:(YDNativeAdClickInfo *)clickInfo urlStr:(NSString *)urlStr;
 @end
 
 @class YDSplashAd, YDSplashAdLoader, YDNativeAdRequestTargeting;
@@ -417,6 +439,9 @@ typedef void(^YDSplashAdLoaderHandler)(YDSplashAdLoader *request, YDSplashAd *re
 @property (nonatomic, copy) NSString *adUnitIdentifier;
 /// 开屏广告请求超时时间，默认0.3s
 @property (nonatomic, assign) NSTimeInterval requestTimeout;
+
+// 默认热启动 （冷启动有会优先实时广告）
+@property (nonatomic, assign) BOOL isCoolStart;
 
 + (YDSplashAdLoader *)loaderWithAdUnitIdentifier:(NSString *)identifier;
 - (void)loadWithCompletionHandler:(YDSplashAdLoaderHandler)handler;
@@ -719,6 +744,15 @@ typedef NS_ENUM(int, collectType){
 + (void)disableEncryption;
 @end
 
+@interface YDSplashAdCheckValiadRequest : NSObject
+
+@property (nonatomic, copy) NSArray *groupIds;
+
+@property (nonatomic, copy) NSString *urlStr;
+
+- (void)requestWithSuccessBlock:(void (^)(NSArray * _Nullable groupIds))successBlock failBlock:(dispatch_block_t)failBlock;
+@end
+
 typedef enum
 {
     YDLogLevelAll = 0,
@@ -787,3 +821,4 @@ NSError *YDNativeAdNSErrorForVASTParsingFailure();
 NSError *YDNativeAdNSErrorForVideoConfigInvalid();
 NSError *YDNativeAdNSErrorForRenderValueTypeError();
 NSError *YDNativeAdNSErrorForFacebookAdError(NSString *fbErrorDesc);
+
