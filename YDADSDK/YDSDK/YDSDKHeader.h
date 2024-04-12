@@ -1,5 +1,5 @@
 //
-//  YD_SDK_VERSION    2.16.31
+//  YD_SDK_VERSION    2.16.32
 //  Created by lilu on 2021/1/18.
 //  Copyright © 2021 Netease Youdao. All rights reserved.
 //
@@ -105,23 +105,36 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 /// 广告点击信息（点击down 或者up传一个就可以，滑动都传）
 @interface YDNativeAdClickInfo : NSObject
 
-/// 点击广告时点击位置相对于广告view的X坐标（按下去的位置  逻辑像素）
+///交互形式    0-常规触屏点击     1-滑动点击   2-摇一摇
+@property (nonatomic, assign) NSInteger sld;
+
+/// 按下去的位置X（逻辑像素）
 @property (nonatomic, assign) CGFloat clickDownX;
 
-/// 点击广告时点击位置相对于广告view的Y坐标（按下去的位置 逻辑像素）
+/// 按下去的位置Y（逻辑像素）
 @property (nonatomic, assign) CGFloat clickDownY;
 
-/// 点击广告时点击位置相对于广告view的X坐标（手指离开抬起的位置  逻辑像素）
+/// 手指抬起离开的位置X（逻辑像素）
 @property (nonatomic, assign) CGFloat clickUpX;
 
-/// 点击广告时点击位置相对于广告view的Y坐标（手指离开抬起的位置 逻辑像素）
+/// 手指抬起离开的位置Y（逻辑像素）
 @property (nonatomic, assign) CGFloat clickUpY;
 
-/// 广告view宽（逻辑像素）
+/// （逻辑像素）
 @property (nonatomic, assign) CGFloat adWidth;
 
-/// 广告view宽（逻辑像素）
+/// （逻辑像素）
 @property (nonatomic, assign) CGFloat adHeight;
+
+
+/// 摇一摇
+@property (nonatomic, assign) CGFloat shakeX;
+
+/// 摇一摇
+@property (nonatomic, assign) CGFloat shakeY;
+
+/// 摇一摇
+@property (nonatomic, assign) CGFloat shakeZ;
 
 @end
 
@@ -173,6 +186,9 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 /// 获取落地页URL
 /// @param clickInfo 点击信息
 - (NSURL *)actualActionURLWithClickInfo:(YDNativeAdClickInfo *)clickInfo;
+
+// 不需要对callback进行encode，监测链接上报时会进行encode
+- (void)updateMonitorURLWithCallback:(NSString *)callback;
 
 /// 广告点击上报接口
 /// 若开发者自行渲染广告需要上报点击事件的时候调用此接口
@@ -822,3 +838,36 @@ NSError *YDNativeAdNSErrorForVideoConfigInvalid();
 NSError *YDNativeAdNSErrorForRenderValueTypeError();
 NSError *YDNativeAdNSErrorForFacebookAdError(NSString *fbErrorDesc);
 
+
+/// 广告不能展示原因
+typedef enum : NSUInteger {
+    /// 未知错误
+    YDSplashAdShowFailTypeUnknown = 0,
+    
+    /// 跳转异常
+    YDSplashAdShowFailTypeUnjump,
+    
+    /// 展示异常
+    YDSplashAdShowFailTypeUnshow,
+    
+    /// 下载异常
+    YDSplashAdShowFailTypeUndownload,
+} YDSplashAdShowFailType;
+
+@interface YDSplashAdShowFailInfo : NSObject
+
+@property (nonatomic, copy) NSString *slotId;  //required - 广告位id
+@property (nonatomic, copy) NSString *advId;  //required - 广告变体id
+@property (nonatomic, copy) NSString *url;  //required - 异常链接
+@property (nonatomic, assign) YDSplashAdShowFailType abnormalType;   //required - 异常类型
+
+- (instancetype)initWithSlotId:(NSString *)slotId advId:(NSString *)advId url:(NSString *)url abnormalType:(YDSplashAdShowFailType)abnormalType;
+
+@end
+
+@interface YDSplashAdShowFailReport : NSObject
+
+/// 展示失败的异常上报
++ (void)trackSplashAdShowFailWithInfoArray:(NSArray <YDSplashAdShowFailInfo *> *)infoArray;
+
+@end
