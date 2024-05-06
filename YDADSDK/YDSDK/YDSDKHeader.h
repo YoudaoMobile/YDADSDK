@@ -1,5 +1,5 @@
 //
-//  YD_SDK_VERSION    2.16.32
+//  YD_SDK_VERSION    2.16.33
 //  Created by lilu on 2021/1/18.
 //  Copyright © 2021 Netease Youdao. All rights reserved.
 //
@@ -201,6 +201,9 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 /// 广告展示上报接口
 /// 若开发者自行渲染广告需要上报展示事件的时候调用此接口
 - (void)trackAdImpression;
+
+/// 广告竞价成功上报
+- (void)reportWithWinPrice:(NSString *)winPrice;
 
 /// 广告打开deeplink上报接口
 /// 若开发者自行渲染广告需要上报打开deeplink事件的时候调用此接口
@@ -871,3 +874,4 @@ typedef enum : NSUInteger {
 + (void)trackSplashAdShowFailWithInfoArray:(NSArray <YDSplashAdShowFailInfo *> *)infoArray;
 
 @end
+
