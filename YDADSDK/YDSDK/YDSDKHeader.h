@@ -1,5 +1,5 @@
 //
-//  YD_SDK_VERSION    2.16.33
+//  YD_SDK_VERSION    2.16.34
 //  Created by lilu on 2021/1/18.
 //  Copyright © 2021 Netease Youdao. All rights reserved.
 //
@@ -88,6 +88,10 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 + (YDAdManager *)sharedInstance;
 /// 获取广告前的准备工作，必须在request广告前先调用这个接口
 - (void)prepareForLoadAd;
+
+/// 获取服务器下发的广告配置（存储的data字段的值）
+- (NSDictionary * _Nullable)adConfig;
+
 @end
 
 @interface YDNativeAdUtils : NSObject
