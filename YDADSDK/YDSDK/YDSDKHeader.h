@@ -1,5 +1,5 @@
 //
-//  YD_SDK_VERSION    2.16.34
+//  YD_SDK_VERSION    2.16.35
 //  Created by lilu on 2021/1/18.
 //  Copyright © 2021 Netease Youdao. All rights reserved.
 //
@@ -106,11 +106,29 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 + (void)storeCallBackUserIdentifier:(NSString *)callBackIdentifier;
 @end
 
+/// 交互类型
+typedef NS_ENUM(NSUInteger, YDAdInteractionType) {
+    
+    /// 点击
+    YDAdInteractionTypeClick = 0,
+    
+    /// 滑动点击
+    YDAdInteractionTypeSlide = 1,
+    
+    /// 摇一摇
+    YDAdInteractionTypeShake = 2,
+    
+    /// 扭一扭
+    YDAdInteractionTypeTurn = 5,
+    
+    /// 三合一（点击、滑动点击、扭一扭）
+    YDAdInteractionTypeClick_Slide_Turn = 6,
+};
+
 /// 广告点击信息（点击down 或者up传一个就可以，滑动都传）
 @interface YDNativeAdClickInfo : NSObject
 
-///交互形式    0-常规触屏点击     1-滑动点击   2-摇一摇
-@property (nonatomic, assign) NSInteger sld;
+@property (nonatomic, assign) YDAdInteractionType sld;
 
 /// 按下去的位置X（逻辑像素）
 @property (nonatomic, assign) CGFloat clickDownX;
@@ -139,6 +157,18 @@ typedef NS_ENUM(NSInteger, YDHostDomain){
 
 /// 摇一摇
 @property (nonatomic, assign) CGFloat shakeZ;
+
+/// 扭一扭
+@property (nonatomic, assign) NSInteger turnX;
+
+/// 扭一扭
+@property (nonatomic, assign) NSInteger turnY;
+
+/// 扭一扭
+@property (nonatomic, assign) NSInteger turnZ;
+
+/// 扭一扭  扭动触发点击时扭动的总时间（单位毫秒）
+@property (nonatomic, assign) NSInteger turnTime;
 
 @end
 
