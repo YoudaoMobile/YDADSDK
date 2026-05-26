@@ -12,5 +12,6 @@ Pod::Spec.new do |spec|
   spec.pod_target_xcconfig = { 'VALID_ARCHS' => 'x86_64 arm64' }
   spec.resources = ['YDADSDK/YDSDK/YDResource.bundle']
   spec.frameworks = ['UIKit', 'CoreGraphics', 'AdSupport', 'WebKit', 'StoreKit', 'SystemConfiguration', 'QuartzCore', 'CoreLocation', 'Foundation', 'CoreTelephony', 'EventKit', 'EventKitUI', 'MediaPlayer', 'AudioToolbox', 'AVFoundation', 'MessageUI', 'Security', 'CoreMedia', 'SafariServices', 'CoreMotion']
+  spec.libraries = ['YDADSDK']
   spec.ios.vendored_frameworks = 'YDADSDK/YDSDK/YDADSDK.xcframework'
 end
