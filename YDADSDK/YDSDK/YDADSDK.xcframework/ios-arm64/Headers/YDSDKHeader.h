@@ -1,5 +1,5 @@
 //
-//  YD_SDK_VERSION    3.0.0
+//  YD_SDK_VERSION    3.0.1
 //  Created by lilu on 2021/1/18.
 //  Copyright © 2021 Netease Youdao. All rights reserved.
 //
